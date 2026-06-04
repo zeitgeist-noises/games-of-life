@@ -1,5 +1,5 @@
 .venv/
-.saved_genomes/
+saved_genomes/
 
 **/__pycache__/
 *.pyc
