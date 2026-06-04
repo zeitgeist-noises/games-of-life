@@ -2,7 +2,8 @@ import os
 import json
 import numpy as np
 
-MAX_KERNEL_SIZE = 100
+MAX_KERNEL_SIZE = 20
+MAX_SPARSITY = 0.2
 
 
 class Genome:
@@ -59,7 +60,7 @@ class Genome:
             kernel_size = np.random.randint(2, MAX_KERNEL_SIZE+1)
         
         if sparsity is None:
-            sparsity = np.random.random()
+            sparsity = MAX_SPARSITY * np.random.random()
             
         kernel = np.random.choice([0, 1], size=(kernel_size, kernel_size), p=[0.4, 0.6]).astype(np.uint8)
         

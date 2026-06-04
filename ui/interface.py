@@ -37,34 +37,51 @@ class SimulationWindow:
         running = True
         paused = False
         
-        print("\n=== Controls ===")
-        print("[space]  - Pause / Resume")
-        print("[right]  - Step Sim (when paused)")
-        print("[r]      - Reinitialize / Reset Grid")
-        print("[n]      - New Genome")
-        print("[s]      - Save Genome to JSON")
-        print("[l]      - Load Genome from JSON")
-        print("[esc]    - Exit")
+        print("\n=== controls ===")
+        print("[space]  - pause / resume")
+        print("[right]  - step (when paused)")
+        print("[r]      - reset grid")
+        print("[n]      - new random genome")
+        print("[alt+n]  - new random genome (keep kernel size)")
+        print("[s]      - save genome to JSON")
+        print("[l]      - load genome from JSON")
+        print("[esc]    - exit")
         
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                    
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         paused = not paused
+                        
                     elif event.key == pygame.K_RIGHT and paused:
                         self.ca.step()
                         self.draw()
+                        
                     elif event.key == pygame.K_r:
                         self.ca.grid = self.ca.reset_grid()
+                        
                     elif event.key == pygame.K_n:
-                        self.ca.genome = Genome.make_random()
+                        
+                        if event.mod & pygame.KMOD_ALT:
+                            current_size = self.ca.genome.kernel.shape[0]
+                            self.ca.genome = Genome.make_random(kernel_size=current_size)
+                        else:
+                            self.ca.genome = Genome.make_random()
+                            current_size = self.ca.genome.kernel.shape[0]
+                            
+                        current_sparsity = self.ca.genome.sparsity
+                        pygame.display.set_caption(f"kernel_size: {current_size}\tsparsity: {current_sparsity}")
                         self.ca.grid = self.ca.reset_grid()
+                        
                     elif event.key == pygame.K_s:
                         self.save_genome()
+                        
                     elif event.key == pygame.K_l:
                         self.load_genome()
+                        
                     elif event.key == pygame.K_ESCAPE:
                         running = False
             
