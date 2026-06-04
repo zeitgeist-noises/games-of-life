@@ -8,7 +8,7 @@ def main():
     genome = Genome.make_random()
     
     grid_size = (200, 200)
-    cell_size = 2
+    cell_size = 4
     
     ca = CellularAutomaton(genome, grid_size)
     window = SimulationWindow(ca, cell_size=cell_size)
