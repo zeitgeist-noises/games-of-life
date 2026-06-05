@@ -1,5 +1,7 @@
 .venv/
 saved_genomes/
+grid_states/
+exports/
 
 **/__pycache__/
 *.pyc
