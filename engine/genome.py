@@ -2,7 +2,7 @@ import os
 import json
 import numpy as np
 
-MAX_KERNEL_SIZE = 20
+MAX_KERNEL_SIZE = 6
 MAX_SPARSITY = 0.2
 
 
@@ -11,6 +11,56 @@ class Genome:
         self.kernel = np.array(kernel, dtype=np.uint8)
         self.rule_table = np.array(rule_table, dtype=np.uint8)
         self.sparsity = sparsity
+    
+    def mutate(self, config: dict = None):
+        # COMMENT_OUT_LATER
+        if config is None:
+            config = {}
+        
+        # obtain new kernel size
+        N = self.kernel.shape[0]
+        growth_pressure = np.sum(self.kernel) - np.sum(self.kernel[1:-1, 1:-1])
+        perimeter_size = 4 * (N - 1)
+        growth_threshold = config.get("growth_threshold", 0.2)
+        
+        if growth_pressure == 0:
+            new_kernel = self.kernel.copy()[1:-1, 1:-1]
+        elif growth_pressure > growth_threshold * perimeter_size:
+            new_kernel = np.zeros((N+2, N+2), dtype=np.uint8)
+            new_kernel[1:-1, 1:-1] = self.kernel.copy()
+        else:
+            new_kernel = self.kernel.copy()
+        
+        # mutate kernel
+        kernel_mut_rate = config.get("kernel_mutation_rate", 0.05)
+        mutation_mask = np.random.random(new_kernel.shape) < kernel_mut_rate
+        new_kernel[mutation_mask] = 1 - new_kernel[mutation_mask]
+        
+        N = new_kernel.shape[0]
+        new_kernel[N // 2, N // 2] = 0
+        
+        # determine new rule_table size
+        new_rule = self.rule_table.copy()
+        S_new = int(np.sum(new_kernel))
+        S_old = self.rule_table.shape[1] - 1
+        
+        if S_new > S_old:
+            padding = np.zeros((2, S_new - S_old), dtype=np.uint8)
+            new_rule = np.hstack((new_rule, padding))
+        elif S_new < S_old:
+            new_rule = new_rule[:, :S_new + 1]
+        
+        # mutate rules
+        rule_mut_rate = config.get("mutation_rate_rule", 0.05)
+        mutation_mask = np.random.random(new_rule.shape) < rule_mut_rate
+        new_rule[mutation_mask] = 1 - new_rule[mutation_mask]
+        
+        # mutate sparsity
+        new_sparsity = self.sparsity
+        delta = (np.random.random() - 0.5) * config.get("mutation_rate_sparsity", 0.05)
+        new_sparsity = self.sparsity + delta
+        
+        return self.__class__(new_kernel, new_rule, new_sparsity)
 
     def save_to_file(self, filepath: str):
         os.makedirs(os.path.dirname(filepath), exist_ok=True)

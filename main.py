@@ -7,7 +7,7 @@ def main():
     # genome = Genome.make_conway()
     genome = Genome.make_random()
     
-    grid_size = (200, 200)
+    grid_size = (400, 250)
     cell_size = 4
     
     ca = CellularAutomaton(genome, grid_size)
