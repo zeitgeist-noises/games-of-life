@@ -8,19 +8,19 @@ Games of Life is a python application that began with a curiousity for John Conw
 
 2. Clone the repository:
     
-    `git clone https://github.com/zeitgeist-noises/games-of-life.git`
-    `cd games-of-life`
+    `git clone https://github.com/zeitgeist-noises/games-of-life.git
+    cd games-of-life`
 
 3. If you want to keep dependencies clean, make a virtual environment:
 
-    `python -m venv .venv`
-    `source .venv/bin/activate   # linux/macos`
-    `.venv/Scripts/Activate.ps1  # windows`
+    `python -m venv .venv
+    source .venv/bin/activate   # linux/macos
+    .venv/Scripts/Activate.ps1  # windows`
 
 4. Install dependencies:
 
-    `pip install --upgrade pip   # update first`
-    `pip install -r requirements.txt`
+    `pip install --upgrade pip   # update first
+    pip install -r requirements.txt`
 
 5. Run the app :D
 
