@@ -1,19 +1,27 @@
-generalized_game_of_life/
-│
-├── README.md
-├── requirements.txt
-├── main.py                 # Entry point to run the interactive UI
-│
-├── engine/
-│   ├── __init__.py
-│   ├── ca.py               # Cellular Automaton simulation logic
-│   └── genome.py           # Genotype definition, mutation, and crossover
-│
-└── ui/
-    ├── __init__.py
-    └── interface.py        # Window management, rendering, and user input
+# Games of Life
 
+Games of Life is a python application that began with a curiousity for John Conway's [Game of Life](https://playgameoflife.com/). It is really magical that from such simple rules such beautiful complexity can emerge. It got me wondering what happens if one generalizes the notion of the game of life to arbitrary 2D cellular automata. What if you experiment with different kernel shapes? What about different dead-or-alive rules? As it turns out, most random configurations devolve into noise very quickly, and it is hard to intentionally design a set of rules that yields interesting results. Games of Life makes finding cool cellular automata easy by generating several slightly mutated rules, letting you choose your favorite, and repeating the process.
+
+## Install and Set-up
+
+1. Ensure you have Python installed (any recent version should work)
+
+2. Clone the repository:
     
-where I left off: loading config behavior for evolution mode (probably shouldn't have an [l] option to load configs, asking on startup actually makes more sense)
+    `git clone https://github.com/zeitgeist-noises/games-of-life.git`
+    `cd games-of-life`
 
+3. If you want to keep dependencies clean, make a virtual environment:
 
+    `python -m venv .venv`
+    `source .venv/bin/activate   # linux/macos`
+    `.venv/Scripts/Activate.ps1  # windows`
+
+4. Install dependencies:
+
+    `pip install --upgrade pip   # update first`
+    `pip install -r requirements.txt`
+
+5. Run the app :D
+
+    `python main.py`
