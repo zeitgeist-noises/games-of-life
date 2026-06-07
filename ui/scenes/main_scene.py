@@ -105,7 +105,6 @@ class MainScene(Scene):
                 self.app.terminal.log("genome mutated.")
                 
             elif event.key == pygame.K_e:
-                print("\n--- starting evolution mode ---")
                 config_dir = "evolution_configs"
                 os.makedirs(config_dir, exist_ok=True)
                 
