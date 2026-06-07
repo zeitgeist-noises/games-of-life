@@ -29,15 +29,27 @@ class Genome:
         else:
             new_kernel = self.kernel.copy()
         
-        # mutate kernel
+        # obtain new
+        
+        # find mutation counts with poisson distributions
         N = new_kernel.shape[0]
         
         kernel_mut_ev = config.get("kernel_mutation_expected_value", 1.0)
-        num_mutations = np.random.poisson(kernel_mut_ev)
-        num_mutations = min(num_mutations, N * N)
+        rule_mut_ev = config.get("rule_mutation_expected_value", 0.5)
         
-        if num_mutations > 0:
-            flat_indices = np.random.choice(N * N, size=num_mutations, replace=False)
+        num_mutations_kernel = 0
+        num_mutations_rule = 0
+        
+        # ensure they aren't both 0'
+        while num_mutations_kernel == 0 and num_mutations_rule == 0:
+            num_mutations_kernel = np.random.poisson(kernel_mut_ev)
+            num_mutations_rule = np.random.poisson(rule_mut_ev)
+        
+        num_mutations_kernel = min(num_mutations_kernel, N * N)
+        
+        # mutate kernel
+        if num_mutations_kernel > 0:
+            flat_indices = np.random.choice(N * N, size=num_mutations_kernel, replace=False)
             rows, cols = np.unravel_index(flat_indices, (N, N))
             new_kernel[rows, cols] = 1 - new_kernel[rows, cols]
         
@@ -62,12 +74,11 @@ class Genome:
         # mutate rules
         N = new_rule.shape[1]
         
-        rule_mut_ev = config.get("rule_mutation_expected_value", 0.5)
-        num_mutations = np.random.poisson(rule_mut_ev)
-        num_mutations = min(num_mutations, N)
+        num_mutations_rule = np.random.poisson(rule_mut_ev)
+        num_mutations_rule = min(num_mutations_rule, N)
         
-        if num_mutations > 0:
-            flat_indices = np.random.choice(2 * N, size=num_mutations, replace=False)
+        if num_mutations_rule > 0:
+            flat_indices = np.random.choice(2 * N, size=num_mutations_rule, replace=False)
             rows, cols = np.unravel_index(flat_indices, (2, N))
             new_rule[rows, cols] = 1 - new_rule[rows, cols]
         

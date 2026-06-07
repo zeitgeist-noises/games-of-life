@@ -105,7 +105,7 @@ class MainScene(Scene):
                 self.app.terminal.log("genome mutated.")
                 
             elif event.key == pygame.K_e:
-                print("\n--- Starting Evolution Mode ---")
+                print("\n--- starting evolution mode ---")
                 config_dir = "evolution_configs"
                 os.makedirs(config_dir, exist_ok=True)
                 
@@ -113,7 +113,7 @@ class MainScene(Scene):
                 files = [os.path.basename(f) for f in glob.glob(os.path.join(config_dir, "*.json"))]
                 
                 self.app.terminal.start_prompt(
-                    prompt_text="Enter evolution config filename: ",
+                    prompt_text="enter evolution config filename (enter for default): ",
                     options=files,
                     callback=self._transition_to_evolution
                 )
