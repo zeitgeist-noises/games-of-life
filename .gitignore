@@ -1,7 +1,12 @@
-.venv/
-saved_genomes/
-grid_states/
-exports/
+.venv/*
+saved_genomes/*
+grid_states/*
+evolution_configs/*
+exports/*
+
+!saved_genomes/conway.json
+!grid_states/glider.txt
+!evolution_configs/default_evolution_config.json
 
 **/__pycache__/
 *.pyc

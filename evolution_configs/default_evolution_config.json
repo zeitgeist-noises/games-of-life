@@ -1,0 +1,9 @@
+{
+    "num_children": 8,
+    "grid_size": [130, 100],
+    "kernel_mutation_expected_value": 1.0,
+    "rule_mutation_expected_value": 0.5,
+    "growth_threshold": 0.2,
+    "mutation_rate_sparsity": 0.05,
+    "fitness_function": "activity"
+}
