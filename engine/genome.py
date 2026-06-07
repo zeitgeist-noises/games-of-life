@@ -23,21 +23,30 @@ class Genome:
         perimeter_size = 4 * (N - 1)
         growth_threshold = config.get("growth_threshold", 0.2)
         
-        if growth_pressure == 0:
-            new_kernel = self.kernel.copy()[1:-1, 1:-1]
-        elif growth_pressure > growth_threshold * perimeter_size:
+        if growth_pressure > growth_threshold * perimeter_size:
             new_kernel = np.zeros((N+2, N+2), dtype=np.uint8)
             new_kernel[1:-1, 1:-1] = self.kernel.copy()
         else:
             new_kernel = self.kernel.copy()
         
         # mutate kernel
-        kernel_mut_rate = config.get("kernel_mutation_rate", 0.05)
-        mutation_mask = np.random.random(new_kernel.shape) < kernel_mut_rate
-        new_kernel[mutation_mask] = 1 - new_kernel[mutation_mask]
-        
         N = new_kernel.shape[0]
+        
+        kernel_mut_ev = config.get("kernel_mutation_expected_value", 1.0)
+        num_mutations = np.random.poisson(kernel_mut_ev)
+        num_mutations = min(num_mutations, N * N)
+        
+        if num_mutations > 0:
+            flat_indices = np.random.choice(N * N, size=num_mutations, replace=False)
+            rows, cols = np.unravel_index(flat_indices, (N, N))
+            new_kernel[rows, cols] = 1 - new_kernel[rows, cols]
+        
         new_kernel[N // 2, N // 2] = 0
+        
+        # prune size if nothing in outer ring
+        growth_pressure = np.sum(new_kernel) - np.sum(new_kernel[1:-1, 1:-1])
+        if growth_pressure == 0:
+            new_kernel = new_kernel[1:-1, 1:-1]
         
         # determine new rule_table size
         new_rule = self.rule_table.copy()
@@ -51,14 +60,21 @@ class Genome:
             new_rule = new_rule[:, :S_new + 1]
         
         # mutate rules
-        rule_mut_rate = config.get("mutation_rate_rule", 0.05)
-        mutation_mask = np.random.random(new_rule.shape) < rule_mut_rate
-        new_rule[mutation_mask] = 1 - new_rule[mutation_mask]
+        N = new_rule.shape[1]
+        
+        rule_mut_ev = config.get("rule_mutation_expected_value", 0.5)
+        num_mutations = np.random.poisson(rule_mut_ev)
+        num_mutations = min(num_mutations, N)
+        
+        if num_mutations > 0:
+            flat_indices = np.random.choice(2 * N, size=num_mutations, replace=False)
+            rows, cols = np.unravel_index(flat_indices, (2, N))
+            new_rule[rows, cols] = 1 - new_rule[rows, cols]
         
         # mutate sparsity
         new_sparsity = self.sparsity
         delta = (np.random.random() - 0.5) * config.get("mutation_rate_sparsity", 0.05)
-        new_sparsity = self.sparsity + delta
+        new_sparsity = max(self.sparsity + delta, 0.001)
         
         return self.__class__(new_kernel, new_rule, new_sparsity)
 

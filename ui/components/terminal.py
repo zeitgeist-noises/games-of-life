@@ -6,8 +6,8 @@ class Terminal:
         self.rect = pygame.Rect(x, y, w, h)
 
         # terminal left: input/log		terminal right: commands/options
-        self.left_rect = pygame.Rect(x, y, int(w * 0.7), h)
-        self.right_rect = pygame.Rect(x + int(w * 0.7), y, int(w * 0.3), h)
+        self.left_rect = pygame.Rect(x, y, int(w * 0.67), h)
+        self.right_rect = pygame.Rect(x + int(w * 0.67), y, int(w * 0.33), h)
         
         # font
         pygame.font.init()
@@ -28,7 +28,7 @@ class Terminal:
     
     def log(self, message):
         self.logs.append(message)
-        if len(self.logs) > 7:
+        if len(self.logs) > 8:
             self.logs.pop(0)
     
     def set_commands_info(self, commands_list):
@@ -117,13 +117,13 @@ class Terminal:
             
             display_list = self.matches if self.input_buffer else self.options
             
-            for i, opt in enumerate(display_list[:6]):  # limit items shown
+            for i, opt in enumerate(display_list[:8]):  # limit items shown
                 color = (0, 255, 100) if i == self.tab_index else (180, 180, 180)
                 text_surf = self.font.render(f"- {opt}", True, color)
                 screen.blit(text_surf, (self.right_rect.x + 10, r_y))
                 r_y += 20
                 
-            if len(display_list) > 6:
+            if len(display_list) > 8:
                 screen.blit(self.font.render(f"...and {len(display_list)-6} more", True, (100, 100, 100)), (self.right_rect.x + 10, r_y))
         else:
             # show standard scene commands

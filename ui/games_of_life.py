@@ -8,12 +8,12 @@ from ui.components.terminal import Terminal
 from ui.scenes.main_scene import MainScene
 
 SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 800
+SCREEN_HEIGHT = 1000
 
-MAIN_SIM_WIDTH = 200
-MAIN_SIM_HEIGHT = 120
+MAIN_SIM_WIDTH = 250
+MAIN_SIM_HEIGHT = 190
 
-TERMINAL_HEIGHT = 200
+TERMINAL_HEIGHT = 240
 
 
 class GamesOfLife:
