@@ -11,7 +11,7 @@ class Terminal:
         
         # font
         pygame.font.init()
-        self.font = pygame.font.SysFont('Consolas', 16)
+        self.font = pygame.font.SysFont('Consolas', 14)
         
         # state
         self.active = False
@@ -99,7 +99,7 @@ class Terminal:
         for msg in self.logs:
             text_surf = self.font.render(msg, True, (180, 180, 180))
             screen.blit(text_surf, (self.left_rect.x + 10, y_offset))
-            y_offset += 20
+            y_offset += 18
 
         if self.active:
             # draw input line at the bottom of the left panel
@@ -113,7 +113,7 @@ class Terminal:
             # show options / autocomplete matches
             title = self.font.render("available options:", True, (200, 150, 50))
             screen.blit(title, (self.right_rect.x + 10, r_y))
-            r_y += 25
+            r_y += 20
             
             display_list = self.matches if self.input_buffer else self.options
             
@@ -121,7 +121,7 @@ class Terminal:
                 color = (0, 255, 100) if i == self.tab_index else (180, 180, 180)
                 text_surf = self.font.render(f"- {opt}", True, color)
                 screen.blit(text_surf, (self.right_rect.x + 10, r_y))
-                r_y += 20
+                r_y += 18
                 
             if len(display_list) > 8:
                 screen.blit(self.font.render(f"...and {len(display_list)-6} more", True, (100, 100, 100)), (self.right_rect.x + 10, r_y))
@@ -133,4 +133,4 @@ class Terminal:
             for cmd in self.current_commands:
                 text_surf = self.font.render(cmd, True, (150, 200, 255))
                 screen.blit(text_surf, (self.right_rect.x + 10, r_y))
-                r_y += 20
+                r_y += 18

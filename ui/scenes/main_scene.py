@@ -35,7 +35,7 @@ class MainScene(Scene):
             "[n]     new random genome",
             "[alt+n] new genome (keep size)",
             "[m]     mutate genome",
-            "[e]     evolution mode"
+            "[e]     evolution mode",
             "[g]     toggle genome info",
             "[s]     save to .json",
             "[l]     load from .json",
