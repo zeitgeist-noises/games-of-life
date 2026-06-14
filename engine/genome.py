@@ -74,7 +74,6 @@ class Genome:
         # mutate rules
         N = new_rule.shape[1]
         
-        num_mutations_rule = np.random.poisson(rule_mut_ev)
         num_mutations_rule = min(num_mutations_rule, N)
         
         if num_mutations_rule > 0:
