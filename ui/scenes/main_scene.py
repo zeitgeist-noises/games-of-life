@@ -32,10 +32,10 @@ class MainScene(Scene):
             "[spc]   pause/resume",
             "[->]    step (if paused)",
             "[r]     reset grid",
-            "[n]     new random genome",
-            "[alt+n] new genome (keep size)",
+            "[n]     new rand genome (alt keep size)",
             "[m]     mutate genome",
             "[e]     evolution mode",
+            "[w]     genome editor",
             "[g]     toggle genome info",
             "[s]     save to .json",
             "[l]     load from .json",
@@ -116,6 +116,11 @@ class MainScene(Scene):
                     options=files,
                     callback=self._transition_to_evolution
                 )
+            elif event.key == pygame.K_w:
+                from ui.scenes.edit_scene import EditScene
+                self.app.scenes["EDIT"] = EditScene(self.app, self.app.ca.genome)
+                self.app.change_scene("EDIT")
+                self.app.terminal.log("entered genome workspace.")
             
             elif event.key == pygame.K_g:
                 self.show_genome_info = not self.show_genome_info
