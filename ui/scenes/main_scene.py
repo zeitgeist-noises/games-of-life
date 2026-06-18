@@ -34,8 +34,8 @@ class MainScene(Scene):
             "[r]     reset grid",
             "[n]     new rand genome (alt keep size)",
             "[m]     mutate genome",
-            "[e]     evolution mode",
-            "[w]     genome editor",
+            "[1]     evolution mode",
+            "[2]     genome editor",
             "[g]     toggle genome info",
             "[s]     save to .json",
             "[l]     load from .json",
@@ -104,7 +104,7 @@ class MainScene(Scene):
                 self.on_ca_changed()
                 self.app.terminal.log("genome mutated.")
                 
-            elif event.key == pygame.K_e:
+            elif event.key == pygame.K_1:
                 config_dir = "evolution_configs"
                 os.makedirs(config_dir, exist_ok=True)
                 
@@ -116,7 +116,7 @@ class MainScene(Scene):
                     options=files,
                     callback=self._transition_to_evolution
                 )
-            elif event.key == pygame.K_w:
+            elif event.key == pygame.K_2:
                 from ui.scenes.edit_scene import EditScene
                 self.app.scenes["EDIT"] = EditScene(self.app, self.app.ca.genome)
                 self.app.change_scene("EDIT")
