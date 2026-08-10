@@ -6,7 +6,15 @@ grid_states/*
 evolution_configs/*
 exports/*
 
+!saved_genomes/coral.json
 !saved_genomes/conway.json
+!saved_genomes/depth.json
+!saved_genomes/long_time_to_pop.json
+!saved_genomes/percolate.json
+!saved_genomes/raining_labyrinth.json
+!saved_genomes/true_sierpinksi.json
+!saved_genomes/up_in_smoke.json
+!saved_genomes/wanderlust.json
 !grid_states/glider.txt
 !evolution_configs/default_evolution_config.json
 
